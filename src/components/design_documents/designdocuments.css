@@ -1,0 +1,31 @@
+#drawings{
+  height: 250px;
+  overflow: auto;
+  overflow-y: scroll;
+
+
+}
+#tableheader{
+
+}
+#revision{
+  height: 250px;
+  overflow: auto;
+  margin-top: 20px;
+
+}
+:target {
+   background: Grey;
+}
+.revisionTitle{
+  margin-top: 100px;
+}
+#rfi{
+  height: 250px;
+  overflow: auto;
+  margin-top: 20px;
+
+}
+.maindesign{
+  margin-top: 10px;
+}
