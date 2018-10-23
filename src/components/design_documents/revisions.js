@@ -7,25 +7,29 @@ class DrawingRevisions extends React.Component {
       super()
         this.state={
           data : [],
-
         }
 this.handleRowClick = this.handleRowClick.bind(this);
   }
 
+fetchData(){
+  fetch('/design_documents/revisions')
+ .then(function(result){
+   return result.json();
+ })
 
-
+ .then(result => this.setState({
+   data:result.recordset,
+ }))
+}
 
 
 //fetching data from server
-  componentWillMount() {
-        fetch('/design_documents/revisions?limit=10')
-       .then(function(result){
-         return result.json();
-       })
-       .then(result => this.setState({
-         data:result.recordset,
-       }))
+  componentDidMount() {
+        this.fetchData();
    };
+
+   
+
 
 
 // handle click by get attribute of href and opening it
@@ -42,7 +46,7 @@ revisionTitle(){
   if (this.props.UID !=="") {
     return(
 
-      <h2>
+      <h2 className="titles">
         Drawing Revisions
       </h2>
     )
@@ -62,7 +66,7 @@ renderRevision(){
 
   <Table bordered condensed hover responsive >
     <thead id='tableheader'>
-        <tr>
+        <tr className="revtable">
           <th>Drawing Number</th>
           <th>Package</th>
           <th>Transmittal</th>

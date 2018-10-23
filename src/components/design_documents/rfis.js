@@ -12,16 +12,23 @@ class RFIs extends React.Component {
 this.handleClick = this.handleClick.bind(this);
   }
 
-
-
-componentDidMount(){
-  fetch('/design_documents/rfi?limit=10')
+fetchRfiData(){
+  fetch('/design_documents/rfi?UDNID='+this.props.UDNID)
  .then(function(result){
    return result.json();
  })
  .then(result => this.setState({
    data:result.recordset,
  }))
+}
+
+componentDidMount(){
+  this.fetchRfiData();
+}
+componentDidUpdate(prevProp){
+  if (prevProp.UDNID !== this.props.UDNID) {
+    this.fetchRfiData();
+  }
 }
 
 
@@ -49,7 +56,7 @@ handleClick(e){
 renderRfiTitle(){
   if (this.props.UDNID !=='') {
     return(
-      <h3>RFIs</h3>
+      <h3 className="titles">RFIs</h3>
     )
   }
 }
@@ -64,17 +71,16 @@ renderRfi(){
   return (
     <Table bordered condensed hover responsive >
       <thead id='tableheader'>
-          <tr>
+          <tr className="rfitable">
             <th>Drawing Number</th>
             <th>Reference ID</th>
             <th>Issue Date</th>
             <th>Reply Date</th>
             <th>Replied</th>
+            <th>RFI Link</th>
           </tr>
       </thead>
       <tbody>
-
-
         {this.state.data.map(function(item,index){
           if (item.IssueDate ===null) {
             return item.IssueDate = "";
@@ -82,28 +88,22 @@ renderRfi(){
           if (item.ReplyDate ===null) {
               return item.ReplyDate = ""
           }
-
           if (item.UDN === UDNID) {
-
-
             return(
               <tr key={index} id={item.UDN}   href={item.ReferenceID} status={item.Replied}>
-
                 <th>{item.UDN}</th>
                 <th>{item.ReferenceID}</th>
                 <th>{item.IssueDate.substr(0,10)}</th>
                 <th>{item.ReplyDate.substr(0,10)}</th>
                 <th>{item.Replied}</th>
-                  <DropdownButton bssize = "large" bsStyle="default" title="RFI Link" key={item.UDN} id="split-button-dropup-pull-right">
+                  <DropdownButton className="rfilink" bssize = "large" bsStyle="default" pullRight title="RFI Link" key={item.UDN} id="pullRight split-button-dropup-pull-right">
                           <MenuItem id="issued" onClick={handleClick} href={item.ReferenceID} status={item.Replied}>Issued URL</MenuItem>
                           <MenuItem id="replied" onClick={handleClick} href={item.ReferenceID} status={item.Replied}>Replied URL</MenuItem>
                   </DropdownButton>
               </tr>
             )
           }
-
         })}
-
       </tbody>
     </Table>
 

@@ -18,12 +18,12 @@ class Header extends React.Component{
     this.setState({valueofClick:"Design Documents"})
     this.props.getData("Design Documents")
   }
-  /**
+  
   else if (e.currentTarget.text==="Shop Drawings"){
     this.setState({valueofClick:"Shop Drawings"})
     this.props.getData("Shop Drawings")
   }
-  **/
+
   }
 
 

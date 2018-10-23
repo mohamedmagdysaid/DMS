@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/header'
 import DesignDocuments from './components/design_documents/design_documents'
 import './App.css'
+import ShopDrawings from './components/shopdrawings/shopdrawings'
 
 class App extends React.Component{
   constructor(){
@@ -19,11 +20,13 @@ callBackfromheader(value){
 }
 
 //rendering the design documnets after the click
-renderDesigndocuments(){
+renderComponent(){
   if (this.state.datafromHeader==="Design Documents"){
     return <DesignDocuments />
   }
-
+  if (this.state.datafromHeader==='Shop Drawings') {
+  return <ShopDrawings />
+}
 }
 
 renderMainTheme(){
@@ -39,13 +42,13 @@ renderMainTheme(){
 
   render(){
     return(
-      <div >
+      <div>
         <Header getData={this.callBackfromheader}/>
         <div className="header">
           {this.renderMainTheme()}
         </div>
         <div className='container-fluid'>
-        {this.renderDesigndocuments()}
+        {this.renderComponent()}
         </div>
       </div>
     )

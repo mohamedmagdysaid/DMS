@@ -119,12 +119,12 @@ renderDrawing(){
 
 
             <div>
-              <h1>Design Documents</h1>
+              <h1 className="titles">Design Documents</h1>
             </div>
               <div id='drawings'>
               <Table bordered condensed hover responsive >
                 <thead id='tableheader'>
-                    <tr>
+                    <tr className="designtable">
                       <th>Drawing Number</th>
                       <th>Title</th>
                     </tr>
