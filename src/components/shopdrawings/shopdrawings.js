@@ -17,6 +17,7 @@ this.handleRowClick=this.handleRowClick.bind(this);
 
       //   Data fetched from drawings table database
 
+
 componentDidMount() {
             fetch('/shopdrawings')
            .then(function(result){
@@ -26,6 +27,8 @@ componentDidMount() {
              data:result.recordset,
            }))
 };
+
+
 
 handleChange(e){
   e.preventDefault();

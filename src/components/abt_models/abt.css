@@ -1,0 +1,6 @@
+abttable{
+  table-layout: auto;
+  height: 250px;
+  overflow: auto;
+  overflow-y: scroll;
+}

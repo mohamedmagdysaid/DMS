@@ -18,12 +18,19 @@ class Header extends React.Component{
     this.setState({valueofClick:"Design Documents"})
     this.props.getData("Design Documents")
   }
-  
+
   else if (e.currentTarget.text==="Shop Drawings"){
     this.setState({valueofClick:"Shop Drawings"})
     this.props.getData("Shop Drawings")
   }
-
+  else if (e.currentTarget.text==="LOD500 Models") {
+    this.setState({valueofClick:"LOD500 Models"})
+    this.props.getData("LOD500 Models")
+  }
+  else if (e.currentTarget.text==="Progress") {
+    this.setState({valueofClick:"Progress"})
+    this.props.getData("Progress")
+  }
   }
 
 
@@ -37,6 +44,7 @@ class Header extends React.Component{
     </Navbar.Brand>
   </Navbar.Header>
   <Nav>
+
     <NavItem eventKey={1} href="#" onClick={this.handleClick}>
       Design Documents
     </NavItem>
@@ -44,8 +52,8 @@ class Header extends React.Component{
       Shop Drawings
     </NavItem>
     <NavDropdown eventKey={3} title="LOD500 Model Submission" id="basic-nav-dropdown">
-      <MenuItem eventKey={3.1}>LOD500 Models</MenuItem>
-      <MenuItem eventKey={3.2}>Progress</MenuItem>
+      <MenuItem eventKey={3.1} onClick={this.handleClick}>LOD500 Models</MenuItem>
+      <MenuItem eventKey={3.2} onClick={this.handleClick}>Progress</MenuItem>
       <MenuItem divider />
       <MenuItem eventKey={3.4}>Separated link</MenuItem>
     </NavDropdown>

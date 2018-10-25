@@ -28,7 +28,7 @@ fetchData(){
         this.fetchData();
    };
 
-   
+
 
 
 
@@ -63,10 +63,10 @@ renderRevision(){
 
   else
   return(
-
+<div className='revtable'>
   <Table bordered condensed hover responsive >
-    <thead id='tableheader'>
-        <tr className="revtable">
+    <thead>
+        <tr className="revtableheader">
           <th>Drawing Number</th>
           <th>Package</th>
           <th>Transmittal</th>
@@ -101,7 +101,7 @@ renderRevision(){
 
     </tbody>
   </Table>
-
+</div>
 )};
 
 
@@ -111,7 +111,7 @@ render(){
         <div className="revisionTitle">
         {this.revisionTitle()}
         </div>
-        <div id='revision'>
+        <div>
           {this.renderRevision()}
         </div>
 

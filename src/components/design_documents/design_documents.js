@@ -31,15 +31,10 @@ e.preventDefault();
   })
 
   if (e.currentTarget.id !==0) {
-    e.currentTarget.style.backgroundColor = "lightblue";
+    e.currentTarget.style.backgroundColor = "#777676";
   }
 
-
 }
-
-
-
-
 
 
 // handle the change of the search
@@ -51,6 +46,7 @@ handleChange(e){
 
 
 }
+
 
 //   Data fetched from drawings table database
 
@@ -74,7 +70,6 @@ renderDrawing(){
   let searchedValue = this.state.searchValue;
   let handleRowClick = this.handleRowClick;
   let color = this.state.color
-
   return(
     this.state.data.filter(function(item){
       if (item.Title === null) {
@@ -86,7 +81,7 @@ renderDrawing(){
       else if (searchedValue.slice(-1) === " ") {
           return searchedValue = searchedValue.slice(-1);
       }
-      return (item.UDN.toLowerCase().indexOf(searchedValue.toLowerCase()) !== -1 || item.Title.toLowerCase().indexOf(searchedValue.toLowerCase()) !== -1 || item.Type.toLowerCase().indexOf(searchedValue.toLowerCase()) !== -1)
+      return ((item.UDN+item.Title+item.Type).toLowerCase().indexOf(searchedValue.toLowerCase())!==-1)
 
     }).map(function(item,index){
     if (index<=300){
@@ -121,9 +116,9 @@ renderDrawing(){
             <div>
               <h1 className="titles">Design Documents</h1>
             </div>
-              <div id='drawings'>
+              <div className='table'>
               <Table bordered condensed hover responsive >
-                <thead id='tableheader'>
+                <thead>
                     <tr className="designtable">
                       <th>Drawing Number</th>
                       <th>Title</th>

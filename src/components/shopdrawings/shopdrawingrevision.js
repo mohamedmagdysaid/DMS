@@ -56,7 +56,7 @@ renderShopRevision(){
     <tbody>
 
 
-      {this.state.data .sort((a, b) => b.itemM > a.itemM).map(function(item,index){
+      {this.state.data.map(function(item,index){
 
         return(
             <tr key={index} id={item.DocumentID}>

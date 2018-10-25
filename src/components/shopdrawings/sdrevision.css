@@ -1,13 +1,5 @@
-#drawings{
-  height: 250px;
-  overflow: auto;
-  overflow-y: scroll;
 
 
-}
-#tableheader{
-
-}
 #revision{
   height: 250px;
   overflow: auto;
@@ -30,25 +22,8 @@
   margin-top: 10px;
 
 }
-.designtable{
-  background-color: #4169E1;
-  color: white;
-}
-.revtable{
-  background-color: #B22222;
-  color: white;
-}
-.rfitable{
-  background-color: #FA8072;
-  color: white;
-}
-.rfilink{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position:relative;
 
-}
+
 
 .titles {
     margin-bottom: 20px;

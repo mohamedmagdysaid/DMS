@@ -3,6 +3,8 @@ import Header from './components/header'
 import DesignDocuments from './components/design_documents/design_documents'
 import './App.css'
 import ShopDrawings from './components/shopdrawings/shopdrawings'
+import AbtModels from './components/abt_models/abt_models'
+import Progress from './components/progress/progress'
 
 class App extends React.Component{
   constructor(){
@@ -16,7 +18,7 @@ class App extends React.Component{
 // callback function to retierve the date from the header and assign it to the new value
 callBackfromheader(value){
   this.setState({datafromHeader:value})
-  console.log(this.state.datafromHeader);
+
 }
 
 //rendering the design documnets after the click
@@ -26,6 +28,12 @@ renderComponent(){
   }
   if (this.state.datafromHeader==='Shop Drawings') {
   return <ShopDrawings />
+}
+if (this.state.datafromHeader === 'LOD500 Models') {
+  return <AbtModels />
+}
+if (this.state.datafromHeader === 'Progress') {
+  return <Progress />
 }
 }
 
@@ -42,12 +50,14 @@ renderMainTheme(){
 
   render(){
     return(
-      <div>
+
+      <div className="container-fluid">
+      {console.log(this.state.datafromHeader)}
         <Header getData={this.callBackfromheader}/>
         <div className="header">
           {this.renderMainTheme()}
         </div>
-        <div className='container-fluid'>
+        <div className='container-fluid col-xs-12 col-md-12 responsive'>
         {this.renderComponent()}
         </div>
       </div>
