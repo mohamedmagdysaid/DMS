@@ -1,8 +1,13 @@
 import React from 'react';
-import {FormControl,FormGroup,form,Table} from 'react-bootstrap'
+import {FormControl,FormGroup} from 'react-bootstrap'
 import './designdocuments.css'
 import DrawingRevisions from './revisions'
 import RFIs from './rfis'
+import { Column, Table } from 'react-virtualized';
+import 'react-virtualized/styles.css';
+import Sidebar from './sidebar'
+
+
 
 class Design_documents extends React.Component{
   constructor(){
@@ -23,16 +28,13 @@ this.handleRowClick = this.handleRowClick.bind(this);
 
 handleRowClick(e){
 
-e.preventDefault();
-
+    console.log(e.rowData);
   this.setState({
-    UID : e.currentTarget.id,
-    UDN : e.currentTarget.getAttribute('UDNID')
+    UID : e.rowData.UDN,
+    UDN : e.rowData.UDN
   })
 
-  if (e.currentTarget.id !==0) {
-    e.currentTarget.style.backgroundColor = "#777676";
-  }
+
 
 }
 
@@ -50,51 +52,63 @@ handleChange(e){
 
 //   Data fetched from drawings table database
 
+
+fetchDesignDocument(){
+  fetch('/design_documents?search='+this.state.searchValue)
+ .then(function(result){
+   return result.json();
+ })
+ .then(result => this.setState({
+   data:result.recordset,
+
+ }))
+
+}
 componentDidMount() {
-      fetch('/design_documents?limit=10')
-     .then(function(result){
-       return result.json();
-     })
-     .then(result => this.setState({
-       data:result.recordset,
-
-     }))
-
-
+      this.fetchDesignDocument();
  };
+
+ componentDidUpdate(prevProp,prevState){
+   if (prevState.searchValue!==this.state.searchValue) {
+     this.fetchDesignDocument();
+   }
+ }
+
+renderDesignDocuments(){
+
+      let handleRowClick=this.handleRowClick;
+      let handleChange= this.handleChange;
+
+      return(
+        <Table
+              width={1400}
+              height={300}
+              headerHeight={20}
+              rowHeight={30}
+              rowCount={this.state.data.length}
+              rowGetter={({ index }) => this.state.data[index]}
+              onRowClick= {handleRowClick}
+              onChange={handleChange}
+        >
+        <Column
+          width={200}
+          label='Drawing Number'
+          dataKey='UDN'
+        />
+          <Column
+            label='Title'
+            dataKey='Title'
+            width={500}
+          />
+        </Table>
+      )
+}
+
 
 
 
 //rendering design documents
-renderDrawing(){
-  let searchedValue = this.state.searchValue;
-  let handleRowClick = this.handleRowClick;
-  let color = this.state.color
-  return(
-    this.state.data.filter(function(item){
-      if (item.Title === null) {
-        return item.Title =" "
-      }
-      else if (item.Type === null) {
-        return item.Type = " "
-      }
-      else if (searchedValue.slice(-1) === " ") {
-          return searchedValue = searchedValue.slice(-1);
-      }
-      return ((item.UDN+item.Title+item.Type).toLowerCase().indexOf(searchedValue.toLowerCase())!==-1)
 
-    }).map(function(item,index){
-    if (index<=300){
-      return (
-        <tr key={item.ID} id={item.ID}  onClick = {handleRowClick} style={{background:color}} udnid={item.UDN}>
-        <td>{item.UDN}</td>
-        <td>{item.Title}</td>
-        </tr>
-      )
-    }
-  })
-)
-}
 
   render(){
 
@@ -112,29 +126,24 @@ renderDrawing(){
                   </FormGroup>
           </form>
 
-
-            <div>
-              <h1 className="titles">Design Documents</h1>
+            <div className = 'col-md-3' >
+                <Sidebar />
             </div>
-              <div className='table'>
-              <Table bordered condensed hover responsive >
-                <thead>
-                    <tr className="designtable">
-                      <th>Drawing Number</th>
-                      <th>Title</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {this.renderDrawing()}
-                </tbody>
-              </Table>
-              </div>
-              <div>
-                  <DrawingRevisions UID={this.state.UID}/>
-              </div>
-              <div>
-                  <RFIs UDNID={this.state.UDN} />
-              </div>
+            <div className = 'col-md-9'>
+                      <h1 className="titles">Design Documents</h1>
+
+
+                      <div>
+                          {this.renderDesignDocuments()}
+                      </div>
+                      <div>
+                          <DrawingRevisions UID={this.state.UID}/>
+                          {console.log(this.state.UID)}
+                      </div>
+                      <div>
+                          <RFIs UDNID={this.state.UDN} />
+                      </div>
+                </div>
       </div>
     )
   }

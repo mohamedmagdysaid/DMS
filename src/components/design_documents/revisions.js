@@ -1,6 +1,7 @@
 import React from 'react'
 import './designdocuments.css'
-import {Table} from 'react-bootstrap'
+import { Column, Table } from 'react-virtualized';
+import 'react-virtualized/styles.css';
 
 class DrawingRevisions extends React.Component {
   constructor() {
@@ -12,7 +13,7 @@ this.handleRowClick = this.handleRowClick.bind(this);
   }
 
 fetchData(){
-  fetch('/design_documents/revisions')
+  fetch('/design_documents/revisions?UID='+this.props.UID)
  .then(function(result){
    return result.json();
  })
@@ -28,15 +29,19 @@ fetchData(){
         this.fetchData();
    };
 
-
+   componentDidUpdate(prevProp){
+     if (prevProp.UID !== this.props.UID) {
+       this.fetchData();
+     }
+   }
 
 
 
 // handle click by get attribute of href and opening it
 handleRowClick(e){
-  e.preventDefault();
-  console.log(e.currentTarget.getAttribute('href'))
-  window.open(e.currentTarget.getAttribute('href'))
+
+  console.log(e.rowData)
+  window.open(e.rowData.VBCURL)
 }
 
 //rendering the component table
@@ -62,46 +67,56 @@ renderRevision(){
   }
 
   else
-  return(
-<div className='revtable'>
-  <Table bordered condensed hover responsive >
-    <thead>
-        <tr className="revtableheader">
-          <th>Drawing Number</th>
-          <th>Package</th>
-          <th>Transmittal</th>
-          <th>Recieved Date</th>
-          <th>Revision</th>
-          <th>Latest</th>
-        </tr>
-    </thead>
-    <tbody>
-
-
-      {this.state.data.map(function(item,index){
-        if (item.RecieveDate ===null) {
-          return item.RecieveDate = ""
-        }
-        if (item.MLID === parseInt(UID)) {
-
 
           return(
-            <tr key={index} id={item.MLID} onClick={handleRowClick} href={item.VBCURL}>
-              <th>{item.UDN}</th>
-              <th>{item.Package}</th>
-              <th>{item.Transmittal}</th>
-              <th>{item.RecieveDate.substr(0,10)}</th>
-              <th>{item.Revision}</th>
-              <th>{item.Latest}</th>
-            </tr>
-          )
-        }
 
-      })}
+            <Table
+                  width={1400}
+                  height={300}
+                  headerHeight={20}
+                  rowHeight={30}
+                  rowCount={this.state.data.length}
+                  rowGetter={({ index }) => this.state.data[index]}
+                  onRowClick= {handleRowClick}
 
-    </tbody>
-  </Table>
-</div>
+            >
+            <Column
+              width={350}
+              label='Drawing Number'
+              dataKey='UDN'
+            />
+              <Column
+                label='Package'
+                dataKey='Package'
+                width={200}
+              />
+              <Column
+                width={300}
+                label='Transmittal'
+                dataKey='Transmittal'
+              />
+              <Column
+                width={200}
+                label='Recieved Date'
+                dataKey='RecieveDate'
+
+              />
+              <Column
+                width={100}
+                label='Revision'
+                dataKey='Revision'
+              />
+              <Column
+                width={350}
+                label='Latest'
+                dataKey='Latest'
+              />
+            </Table>
+
+
+
+
+
 )};
 
 

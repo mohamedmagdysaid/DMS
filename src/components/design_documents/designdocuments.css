@@ -47,7 +47,7 @@
   background-color: #002156;
   color: white;
   height: 40px;
-  
+
 }
 .revtableheader{
   background-color: #002156;
@@ -75,4 +75,19 @@
     font-weight: 300;
     line-height: 1.4;
     color: #808080;
+}
+
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+#sidebar.active {
+    margin-left: -250px;
 }

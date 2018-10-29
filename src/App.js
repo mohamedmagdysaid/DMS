@@ -57,7 +57,7 @@ renderMainTheme(){
         <div className="header">
           {this.renderMainTheme()}
         </div>
-        <div className='container-fluid col-xs-12 col-md-12 responsive'>
+        <div className='container-fluid col-xs-12 col-md-12 responsive test'>
         {this.renderComponent()}
         </div>
       </div>

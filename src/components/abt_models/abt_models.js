@@ -1,6 +1,7 @@
 import React from 'react'
-import {FormGroup,FormControl,Table} from 'react-bootstrap'
-
+import {FormGroup,FormControl} from 'react-bootstrap'
+import { Column, Table } from 'react-virtualized';
+import 'react-virtualized/styles.css';
 
 
 class AbtModels extends React.Component{
@@ -8,12 +9,17 @@ class AbtModels extends React.Component{
         super()
         this.state={
           data:[],
+          searchAbt:'',
+          list:''
         }
+
+this.handleRowClick = this.handleRowClick.bind(this)
+this.handleChange = this.handleChange.bind(this)
       }
 
 
 fetchAbtData(){
-  fetch('/abtmodels')
+  fetch('/abtmodels?modelname='+this.state.searchAbt)
  .then(function(result){
    return result.json();
    })
@@ -23,48 +29,121 @@ fetchAbtData(){
 }
 
 
+
+
+
+handleChange(e){
+//  let searchAbt = this.state.searchAbt
+  this.setState({
+    searchAbt  :  e.currentTarget.value,
+    //data : this.state.data.filter(function(item){
+    //  return (item.ModelName.toLowerCase().indexOf(searchAbt.toLowerCase())!== -1)
+   //})
+  })
+}
+componentDidUpdate(prevProp,prevState){
+  if (prevState.searchAbt!==this.state.searchAbt) {
+    console.log(prevState.searchAbt);
+    this.fetchAbtData();
+  }
+}
+
+
 componentDidMount() {
         this.fetchAbtData();
 };
 
 
+handleRowClick(e){
+  console.log(e.rowData);
+}
+
+
 renderModels(){
+  const list = this.state.data;
+  let handleRowClick = this.handleRowClick;
+  let searchAbt = this.state.searchAbt
+  let handleChange = this.handleChange
+
+
+  this.state.data.filter(function(item, pos, self){
+    if(item.ABT_Model_TranNum===null){
+      return item.ABT_Model_TranNum = "-"
+    }
+    else if (item.ABT_Model_TranNum !==null ) {
+      return item.ABT_Model_TranNum = item.ABT_Model_TranNum_Prefix+"-"+item.ABT_Model_Discipline+"-"+item.ABT_Model_TranNum
+    }
+    if (item.ReplyStatus === "?") {
+      return item.ReplyStatus  = "Under Review"
+    }
+
+})
+
+//for (var i = 0; i < this.state.data.length; i++) {
+//  for (var j = 0; j < this.state.data.length; j++) {
+//    if (this.state.data[i].ModelName==this.state.data[j].ModelName) {
+//     console.log(this.state.data[j].ModelName);
+//    }
+//  }
+//}
+
+
+
 
 return(
-this.state.data.filter(function(item){
-  if(item.ABT_Model_TranNum===null){
-    return item.ABT_Model_TranNum = "-"
-  }
-  else if (item.ABT_Model_TranNum !==null ) {
-    return item.ABT_Model_TranNum = item.ABT_Model_TranNum_Prefix+"-"+item.ABT_Model_Discipline+"-"+item.ABT_Model_TranNum
-  }
-  if (item.ReplyStatus === "?") {
-    return item.ReplyStatus  = "Under Review"
-  }
 
+<Table
+      width={1400}
+      height={300}
+      headerHeight={20}
+      rowHeight={30}
+      rowCount={this.state.data.length}
+      rowGetter={({ index }) => this.state.data[index]}
+      onRowClick= {handleRowClick}
+      onChange={handleChange}
+>
+<Column
+  width={200}
+  label='Discipline'
+  dataKey='Discipline'
+/>
+  <Column
+    label='Model Name'
+    dataKey='ModelName'
+    width={500}
+  />
+  <Column
+    width={350}
+    label='Scope'
+    dataKey='SCOPE'
+  />
+  <Column
+    width={100}
+    label='Area'
+    dataKey='Area'
 
-
-}).map(function(item,index){
-
-
-        return(
-            <tr key={index} id={item.ID}>
-              <th>{item.Discipline}</th>
-              <th>{item.ModelName}</th>
-              <th>{item.SCOPE}</th>
-              <th>{item.Area}</th>
-              <th>{item.Floor}</th>
-              <th>{item.Owner}</th>
-              <th>{item.Planned_Submission_Date}</th>
-              <th>{item.ABT_Model_TranNum}</th>
-              <th>{item.Rev}</th>
-              <th>{item.SentDate}</th>
-              <th>{item.ReplyDate}</th>
-              <th>{item.ReplyStatus}</th>
-            </tr>
-          )
-      })
-
+  />
+  <Column
+    width={100}
+    label='Floor'
+    dataKey='Floor'
+  />
+  <Column
+    width={350}
+    label='Transmittal Number'
+    dataKey='ABT_Model_TranNum'
+  />
+  <Column
+    width={150}
+    label='Revision'
+    dataKey='Rev'
+  />
+  <Column
+    width={400}
+    label='Comment'
+    dataKey='ReplyStatus'
+  />
+</Table>
 
 )}
 
@@ -73,11 +152,10 @@ render(){
   return(
     <div className='container-fluid maindesign'>
       <form>
-
               <FormGroup>
                         <FormControl
                         type="text"
-                        value={this.state.searchValueOfShopDrawings}
+                        value={this.state.searchAbt}
                         placeholder="Search..."
                         onChange={this.handleChange}
                       />
@@ -85,29 +163,10 @@ render(){
         </form>
 
 
-        <div id='drawings'>
-        <Table bordered condensed hover responsive >
-          <thead id='tableheader'>
-              <tr className="designtable">
-                <th>Discipline</th>
-                <th>Model Name</th>
-                <th>Scope</th>
-                <th>Area</th>
-                <th>Floor</th>
-                <th>Owner</th>
-                <th>Planned Submission Date</th>
-                <th>Transmittal Number</th>
-                <th>Revision</th>
-                <th>LiveLink Submission Date</th>
-                <th>LiveLink Reply Date</th>
-                <th>Comment</th>
-              </tr>
-          </thead>
-          <tbody>
-              {this.renderModels()}
-          </tbody>
-        </Table>
+        <div>
+            {this.renderModels()}
         </div>
+
 
         </div>
   )
