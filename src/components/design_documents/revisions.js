@@ -41,7 +41,11 @@ fetchData(){
 handleRowClick(e){
 
   console.log(e.rowData)
-  window.open(e.rowData.VBCURL)
+  if (e.rowData.VBCURL == "N/A") {
+    alert("The link is not available")
+  }
+  else(window.open(e.rowData.VBCURL))
+
 }
 
 //rendering the component table

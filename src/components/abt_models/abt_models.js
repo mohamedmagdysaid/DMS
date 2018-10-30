@@ -70,7 +70,7 @@ renderModels(){
     if(item.ABT_Model_TranNum===null){
       return item.ABT_Model_TranNum = "-"
     }
-    else if (item.ABT_Model_TranNum !==null ) {
+    else if (item.ABT_Model_TranNum !==null && item.ABT_Model_TranNum !=="-" && item.ABT_Model_TranNum_Prefix !==null && item.ABT_Model_TranNum.slice(0,3) !=="BIM") {
       return item.ABT_Model_TranNum = item.ABT_Model_TranNum_Prefix+"-"+item.ABT_Model_Discipline+"-"+item.ABT_Model_TranNum
     }
     if (item.ReplyStatus === "?") {
