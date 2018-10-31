@@ -13,7 +13,7 @@ app.get('/ping', function (req, res) {
 var sql =require("mssql");
 var config = {
       server:'*****',
-      user:'****',
+      user:'*****',
       password:'*****',
       driver: 'tedious',
       database:'DB_DMS',
@@ -92,7 +92,7 @@ app.get('/shopdrawings',function(req,res){
           //Query Database
           var dbQuery = new sql.Request(connection);
           //Purposely we are delaying the results
-          dbQuery.query("SELECT distinct DB_DMS.dbo.ShopDrawingSchedule.DocumentID,DB_DMS.dbo.ShopDrawingSchedule.Title,DB_DMS.dbo.ShopDrawingSchedule.Level,DB_DMS.dbo.ShopDrawingSchedule.Sector , DB_DMS.dbo.ShopDrawingSchedule.Originator FROM DB_DMS.dbo.ShopDrawingSchedule",function(err,resultset){
+          dbQuery.query("SELECT distinct TOP 1000 DB_DMS.dbo.ShopDrawingSchedule.DocumentID,DB_DMS.dbo.ShopDrawingSchedule.Title,DB_DMS.dbo.ShopDrawingSchedule.Level,DB_DMS.dbo.ShopDrawingSchedule.Sector , DB_DMS.dbo.ShopDrawingSchedule.Originator FROM DB_DMS.dbo.ShopDrawingSchedule WHERE DB_DMS.dbo.ShopDrawingSchedule.DocumentID LIKE '%"+req.query.search+"%' OR DB_DMS.dbo.ShopDrawingSchedule.Title LIKE '%"+req.query.search+"%' OR DB_DMS.dbo.ShopDrawingSchedule.Originator LIKE '%"+req.query.search+"%' OR DB_DMS.dbo.ShopDrawingSchedule.Level LIKE '%"+req.query.search+"%' OR DB_DMS.dbo.ShopDrawingSchedule.Sector LIKE '%"+req.query.search+"%'",function(err,resultset){
               //In case of an error print the error to the console. You can have your customer error handling
               if (err) console.log(err);
 
