@@ -17,6 +17,9 @@ handleRfiIssuedClick(){
    if (this.props.RfiRef !="") {
      window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+this.props.RfiRef+"&isWN=true&dMode=0&Number=00")
    }
+   else{
+     alert("Please select RFI")
+   }
 
 }
 
@@ -24,8 +27,11 @@ handleRfiRepliedClick(){
   if (this.props.RfiRef !="" && this.props.RfiStatus=="YES") {
     window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+this.props.RfiRef+"&isWN=true&dMode=0&Number00%2EC")
   }
-  else if (this.props.RfiStatus !== "YES"){
+  else if (this.props.RfiStatus !== "YES" && this.props.RfiRef !=""){
       alert("RFI is not Responded Yet")
+    }
+    if (this.props.RfiRef == "") {
+      alert("Please select RFI")
     }
 }
 
@@ -43,7 +49,7 @@ render(){
         <ul class="list-unstyled components">
             <p className = "sidebartitle">Design Documents</p>
             <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">---</a>
+                <a href="#" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">---</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
                         <a href="#">Home 1</a>

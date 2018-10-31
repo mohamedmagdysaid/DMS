@@ -1,6 +1,5 @@
 import React from 'react'
 import './designdocuments.css'
-//import {Table,DropdownButton,MenuItem} from 'react-bootstrap'
 import { Column, Table } from 'react-virtualized';
 
 class RFIs extends React.Component {
@@ -54,6 +53,22 @@ renderRfiTitle(){
 renderRfi(){
   let UDNID = this.props.UDNID;
   let handleClick = this.handleClick;
+  this.state.data.filter(function(item){
+    if (item.IssueDate == null) {
+      return item.IssueDate  = "";
+    }
+    if (item.IssueDate !== null) {
+      return item.IssueDate = item.IssueDate.slice(0,10);
+    }
+    if (item.ReplyDate == null) {
+      return item.ReplyDate = "";
+    }
+    if (item.ReplyDate !== null) {
+      return item.ReplyDate = item.ReplyDate.slice(0,10);
+    }
+  })
+
+
   if (this.props.UDNID === '') {
 
   }
@@ -81,7 +96,7 @@ renderRfi(){
                     width={200}
                   />
                   <Column
-                    width={300}
+                    width={150}
                     label='Issue Date'
                     dataKey='IssueDate'
                   />

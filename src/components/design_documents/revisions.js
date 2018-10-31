@@ -66,9 +66,20 @@ revisionTitle(){
 renderRevision(){
   let UID = this.props.UID
   let handleRowClick = this.handleRowClick;
+  var revData = this.state.data.filter(function(item){
+    if (item.RecieveDate == null) {
+      return item.RecieveDate = ""
+    }
+    if (item.RecieveDate !==null) {
+      return item.RecieveDate = item.RecieveDate.slice(0,10);
+    }
+  })
+
+
   if (this.props.UID === '') {
 
   }
+
 
   else
 
@@ -79,8 +90,8 @@ renderRevision(){
                   height={300}
                   headerHeight={20}
                   rowHeight={30}
-                  rowCount={this.state.data.length}
-                  rowGetter={({ index }) => this.state.data[index]}
+                  rowCount={revData.length}
+                  rowGetter={({ index }) => revData[index]}
                   onRowClick= {handleRowClick}
 
             >
@@ -100,7 +111,7 @@ renderRevision(){
                 dataKey='Transmittal'
               />
               <Column
-                width={200}
+                width={150}
                 label='Recieved Date'
                 dataKey='RecieveDate'
 

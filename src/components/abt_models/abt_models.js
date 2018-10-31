@@ -67,7 +67,7 @@ renderModels(){
 
 
   this.state.data.filter(function(item, pos, self){
-    if(item.ABT_Model_TranNum===null){
+    if(item.ABT_Model_TranNum === null){
       return item.ABT_Model_TranNum = "-"
     }
     else if (item.ABT_Model_TranNum !==null && item.ABT_Model_TranNum !=="-" && item.ABT_Model_TranNum_Prefix !==null && item.ABT_Model_TranNum.slice(0,3) !=="BIM") {
@@ -78,6 +78,7 @@ renderModels(){
     }
     else if (item.ReplyStatus.toString() == "?") {
       return item.ReplyStatus  = "Under Review"
+
     }
 
 })
