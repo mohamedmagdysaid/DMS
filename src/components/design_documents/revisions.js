@@ -75,7 +75,7 @@ renderRevision(){
           return(
 
             <Table
-                  width={1400}
+                  width={1100}
                   height={300}
                   headerHeight={20}
                   rowHeight={30}

@@ -52,7 +52,6 @@ renderMainTheme(){
     return(
 
       <div className="container-fluid">
-      {console.log(this.state.datafromHeader)}
         <Header getData={this.callBackfromheader}/>
         <div className="header">
           {this.renderMainTheme()}

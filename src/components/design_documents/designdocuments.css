@@ -81,11 +81,16 @@
 .wrapper {
     display: flex;
     align-items: stretch;
+    position: -webkit-sticky;
+     position: sticky;
+     align-items: stretch
 }
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
+    position: -webkit-sticky;
+     position: sticky;
 }
 
 #sidebar.active {

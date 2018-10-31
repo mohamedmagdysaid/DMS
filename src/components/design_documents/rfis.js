@@ -34,18 +34,8 @@ componentDidUpdate(prevProp){
 
 handleClick(e){
 
-    let rfiRef = e.rowData.ReferenceID
-    console.log(e.rowData.ReferenceID);
-
-    if (e.rowData ==="issued") {
-      window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+rfiRef+"&isWN=true&dMode=0&Number=00")
-    }
-    if (e.rowData.Replied==="Yes"){
-      window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+rfiRef+"&isWN=true&dMode=0&Number00%2EC")
-    }
-    else if (e.rowData.Replied !== "YES"){
-      alert("RFI is not Responded Yet")
-    }
+    let rfiRef = {RfiRef : e.rowData.ReferenceID,RfiStatus:e.rowData.Replied}
+    this.props.getRfi(rfiRef);
 }
 
 
@@ -71,7 +61,7 @@ renderRfi(){
   return (
 
                 <Table
-                      width={1400}
+                      width={1200}
                       height={300}
                       headerHeight={20}
                       rowHeight={30}

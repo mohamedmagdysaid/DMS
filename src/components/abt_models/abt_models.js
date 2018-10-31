@@ -73,7 +73,10 @@ renderModels(){
     else if (item.ABT_Model_TranNum !==null && item.ABT_Model_TranNum !=="-" && item.ABT_Model_TranNum_Prefix !==null && item.ABT_Model_TranNum.slice(0,3) !=="BIM") {
       return item.ABT_Model_TranNum = item.ABT_Model_TranNum_Prefix+"-"+item.ABT_Model_Discipline+"-"+item.ABT_Model_TranNum
     }
-    if (item.ReplyStatus === "?") {
+    if (item.ReplyStatus === null) {
+      return item.ReplyStatus  = ""
+    }
+    else if (item.ReplyStatus.toString() == "?") {
       return item.ReplyStatus  = "Under Review"
     }
 

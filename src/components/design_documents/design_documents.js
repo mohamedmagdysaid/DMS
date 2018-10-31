@@ -18,10 +18,13 @@ class Design_documents extends React.Component{
       UID:'',
       color:'',
       UDN:'',
+      datafromRfi:'',
+      RfiStatus:'',
 
     }
 this.handleChange = this.handleChange.bind(this);
 this.handleRowClick = this.handleRowClick.bind(this);
+this.callBackfromRfi = this.callBackfromRfi.bind (this)
   }
 
 // handling click on table to pass a propety to revision component
@@ -74,6 +77,11 @@ componentDidMount() {
    }
  }
 
+
+ callBackfromRfi(value){
+   this.setState({datafromRfi:value.RfiRef,
+                    RfiStatus:value.RfiStatus})
+ }
 renderDesignDocuments(){
 
       let handleRowClick=this.handleRowClick;
@@ -81,7 +89,7 @@ renderDesignDocuments(){
 
       return(
         <Table
-              width={1400}
+              width={1100}
               height={300}
               headerHeight={20}
               rowHeight={30}
@@ -91,7 +99,7 @@ renderDesignDocuments(){
               onChange={handleChange}
         >
         <Column
-          width={200}
+          width={300}
           label='Drawing Number'
           dataKey='UDN'
         />
@@ -115,7 +123,6 @@ renderDesignDocuments(){
     return(
       <div className='container-fluid maindesign'>
         <form>
-
                 <FormGroup>
                           <FormControl
                           type="text"
@@ -127,21 +134,19 @@ renderDesignDocuments(){
           </form>
 
             <div className = 'col-md-3' >
-                <Sidebar />
+                <Sidebar RfiRef={this.state.datafromRfi} RfiStatus={this.state.RfiStatus}/>
             </div>
             <div className = 'col-md-9'>
                       <h1 className="titles">Design Documents</h1>
-
 
                       <div>
                           {this.renderDesignDocuments()}
                       </div>
                       <div>
                           <DrawingRevisions UID={this.state.UID}/>
-                          {console.log(this.state.UID)}
                       </div>
                       <div>
-                          <RFIs UDNID={this.state.UDN} />
+                          <RFIs UDNID={this.state.UDN} getRfi={this.callBackfromRfi}/>
                       </div>
                 </div>
       </div>
