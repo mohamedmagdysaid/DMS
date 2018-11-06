@@ -96,3 +96,7 @@
 #sidebar.active {
     margin-left: -250px;
 }
+
+.imageWrapper {
+  position: relative;
+}

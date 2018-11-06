@@ -30,7 +30,7 @@ componentDidUpdate(prevProp){
   }
 }
 
-
+//handle click from rfi to sidebar
 handleClick(e){
 
     let rfiRef = {RfiRef : e.rowData.ReferenceID,RfiStatus:e.rowData.Replied}
@@ -76,7 +76,7 @@ renderRfi(){
   return (
 
                 <Table
-                      width={1200}
+                      width={1100}
                       height={300}
                       headerHeight={20}
                       rowHeight={30}

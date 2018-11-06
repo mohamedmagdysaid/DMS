@@ -9,6 +9,7 @@ import Sidebar from './sidebar'
 
 
 
+
 class Design_documents extends React.Component{
   constructor(){
     super()
@@ -20,11 +21,14 @@ class Design_documents extends React.Component{
       UDN:'',
       datafromRfi:'',
       RfiStatus:'',
+      compareToInti:'',
+      compareToPrev:'',
 
     }
 this.handleChange = this.handleChange.bind(this);
 this.handleRowClick = this.handleRowClick.bind(this);
-this.callBackfromRfi = this.callBackfromRfi.bind (this)
+this.callBackfromRfi = this.callBackfromRfi.bind (this);
+this.callBackfromRev  = this.callBackfromRev.bind(this);
   }
 
 // handling click on table to pass a propety to revision component
@@ -57,6 +61,7 @@ handleChange(e){
 
 
 fetchDesignDocument(){
+
   fetch('/design_documents?search='+this.state.searchValue)
  .then(function(result){
    return result.json();
@@ -82,6 +87,17 @@ componentDidMount() {
    this.setState({datafromRfi:value.RfiRef,
                     RfiStatus:value.RfiStatus})
  }
+
+
+callBackfromRev(value){
+  this.setState({
+    compareToInti : value.compareToInti,
+    compareToPrev: value.compareToPrev
+  })
+}
+
+
+
 renderDesignDocuments(){
 
       let handleRowClick=this.handleRowClick;
@@ -134,7 +150,7 @@ renderDesignDocuments(){
           </form>
 
             <div className = 'col-md-3' >
-                <Sidebar RfiRef={this.state.datafromRfi} RfiStatus={this.state.RfiStatus}/>
+                <Sidebar RfiRef={this.state.datafromRfi} RfiStatus={this.state.RfiStatus} compareToInti={this.state.compareToInti} compareToPrev={this.state.compareToPrev}/>
             </div>
             <div className = 'col-md-9'>
                       <h1 className="titles">Design Documents</h1>
@@ -143,7 +159,7 @@ renderDesignDocuments(){
                           {this.renderDesignDocuments()}
                       </div>
                       <div>
-                          <DrawingRevisions UID={this.state.UID}/>
+                          <DrawingRevisions UID={this.state.UID} getURL={this.callBackfromRev}/>
                       </div>
                       <div>
                           <RFIs UDNID={this.state.UDN} getRfi={this.callBackfromRfi}/>

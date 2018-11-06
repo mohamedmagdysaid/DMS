@@ -8,6 +8,8 @@ class Sidebar extends React.Component{
 
 this.handleRfiIssuedClick=this.handleRfiIssuedClick.bind(this);
 this.handleRfiRepliedClick = this.handleRfiRepliedClick.bind(this);
+this.handleCompareToInti = this.handleCompareToInti.bind(this);
+this.handleCompareToPrev =  this.handleCompareToPrev.bind(this);
     }
 
 
@@ -24,38 +26,65 @@ handleRfiIssuedClick(){
 }
 
 handleRfiRepliedClick(){
-  if (this.props.RfiRef !="" && this.props.RfiStatus=="YES") {
+  if (this.props.RfiRef !=="" && this.props.RfiStatus==="YES") {
     window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+this.props.RfiRef+"&isWN=true&dMode=0&Number00%2EC")
   }
-  else if (this.props.RfiStatus !== "YES" && this.props.RfiRef !=""){
+  else if (this.props.RfiStatus !== "YES" && this.props.RfiRef !==""){
       alert("RFI is not Responded Yet")
     }
-    if (this.props.RfiRef == "") {
+    if (this.props.RfiRef === "") {
       alert("Please select RFI")
     }
+}
+
+handleCompareToInti(){
+  if (this.props.compareToInti === "") {
+    alert("Please select drawing")
+  }
+  else if (this.props.compareToInti =="N/A") {
+    alert("Drawing is not available")
+  }
+  else {
+
+    window.open(this.props.compareToInti.replace("X:\\1. Public\\Out","http://127.0.0.1:8887"));
+  }
+}
+
+
+handleCompareToPrev(){
+  if (this.props.compareToPrev === "") {
+    alert("Please select drawing")
+  }
+  else if (this.props.compareToPrev =="N/A") {
+    alert("Drawing is not available")
+  }
+  else {
+
+    window.open(this.props.compareToPrev.replace("X:\\1. Public\\Out","http://127.0.0.1:8887"));
+  }
 }
 
 
 
 render(){
   return(
-    <div class="wrapper">
+    <div className="wrapper">
 
     <nav id="sidebar">
-        <div class="sidebar-header">
+        <div className="sidebar-header">
             <h3>DIMS</h3>
         </div>
 
-        <ul class="list-unstyled components">
+        <ul className="list-unstyled components">
             <p className = "sidebartitle">Design Documents</p>
-            <li class="active">
-                <a href="#" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">---</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li className="active">
+                <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">---</a>
+                <ul className="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="#">Home 1</a>
+                        <a href="">Home 1</a>
                     </li>
                     <li>
-                        <a href="#">Home 2</a>
+                        <a href="">Home 2</a>
                     </li>
                     <li>
                         <a href="#">Home 3</a>
@@ -63,7 +92,16 @@ render(){
                 </ul>
             </li>
             <li>
-                <a href="#">---</a>
+                <a href="">---</a>
+            </li>
+            <li>
+                <p data-toggle="collapse" aria-expanded="false" className="RFI">Comparison</p>
+            </li>
+            <li>
+                <a onClick={this.handleCompareToInti} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Compare to Intial</a>
+            </li>
+            <li>
+                <a onClick={this.handleCompareToPrev} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Compare to previous</a>
             </li>
             <li>
                 <p data-toggle="collapse" aria-expanded="false" className="RFI">RFIs</p>

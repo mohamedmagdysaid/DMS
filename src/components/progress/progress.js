@@ -7,35 +7,18 @@ class Progress extends React.Component {
     super()
     this.state={
       data:[{
-    "id": "rust",
-    "label": "rust",
-    "value": 130,
-    "color": "hsl(78, 70%, 50%)"
+    "id": "Submitted",
+    "label": "Number of models submitted to the client",
+    "value": 796,
+    "color": "hsl(17, 70%, 50%)"
   },
   {
-    "id": "php",
-    "label": "php",
-    "value": 401,
+    "id": "Not Submitted",
+    "label": "remaining models",
+    "value": 1841,
     "color": "hsl(322, 70%, 50%)"
-  },
-  {
-    "id": "make",
-    "label": "make",
-    "value": 92,
-    "color": "hsl(120, 70%, 50%)"
-  },
-  {
-    "id": "python",
-    "label": "python",
-    "value": 55,
-    "color": "hsl(309, 70%, 50%)"
-  },
-  {
-    "id": "lisp",
-    "label": "lisp",
-    "value": 135,
-    "color": "hsl(263, 70%, 50%)"
-  }]
+  }
+  ]
     }
   }
 
@@ -57,7 +40,7 @@ render(){
         colors="nivo"
         colorBy="id"
         borderWidth={1}
-        borderColor="inherit:darker(0.2)"
+        borderColor="inherit:darker(0.5)"
         radialLabelsSkipAngle={10}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="#333333"
@@ -94,13 +77,13 @@ render(){
         fill={[
             {
                 "match": {
-                    "id": "ruby"
+                    "id": "Submitted"
                 },
                 "id": "dots"
             },
             {
                 "match": {
-                    "id": "c"
+                    "id": "submitted"
                 },
                 "id": "dots"
             },

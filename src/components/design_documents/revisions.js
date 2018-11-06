@@ -6,10 +6,12 @@ import 'react-virtualized/styles.css';
 class DrawingRevisions extends React.Component {
   constructor() {
       super()
+
         this.state={
           data : [],
         }
 this.handleRowClick = this.handleRowClick.bind(this);
+this.handleRowDoubleClick = this.handleRowDoubleClick.bind(this);
   }
 
 fetchData(){
@@ -35,16 +37,24 @@ fetchData(){
      }
    }
 
+//handle double click on row
+handleRowDoubleClick(e){
+  if (e.rowData.VBCURL == "N/A") {
+    alert("The link is not available")
+  }
+  else(window.open(e.rowData.VBCURL))
+
+}
+
 
 
 // handle click by get attribute of href and opening it
 handleRowClick(e){
 
-  console.log(e.rowData)
-  if (e.rowData.VBCURL == "N/A") {
-    alert("The link is not available")
-  }
-  else(window.open(e.rowData.VBCURL))
+
+  let revRef = {compareToInti : e.rowData.CompareToInti, compareToPrev:e.rowData.CompareToPrev}
+  this.props.getURL(revRef);
+
 
 }
 
@@ -66,6 +76,9 @@ revisionTitle(){
 renderRevision(){
   let UID = this.props.UID
   let handleRowClick = this.handleRowClick;
+  let handleRowDoubleClick = this.handleRowDoubleClick;
+
+
   var revData = this.state.data.filter(function(item){
     if (item.RecieveDate == null) {
       return item.RecieveDate = ""
@@ -92,7 +105,8 @@ renderRevision(){
                   rowHeight={30}
                   rowCount={revData.length}
                   rowGetter={({ index }) => revData[index]}
-                  onRowClick= {handleRowClick}
+                  onRowDoubleClick= {handleRowDoubleClick}
+                  onRowClick={handleRowClick}
 
             >
             <Column
