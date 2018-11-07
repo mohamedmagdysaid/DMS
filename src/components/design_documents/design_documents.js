@@ -6,6 +6,7 @@ import RFIs from './rfis'
 import { Column, Table } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 import Sidebar from './sidebar'
+import AdvancedFilter from './advancedFilter'
 
 
 
@@ -23,19 +24,21 @@ class Design_documents extends React.Component{
       RfiStatus:'',
       compareToInti:'',
       compareToPrev:'',
+      searchData:'',
+
 
     }
 this.handleChange = this.handleChange.bind(this);
 this.handleRowClick = this.handleRowClick.bind(this);
 this.callBackfromRfi = this.callBackfromRfi.bind (this);
 this.callBackfromRev  = this.callBackfromRev.bind(this);
+this.callBackfromFilter = this.callBackfromFilter.bind(this);
   }
 
 // handling click on table to pass a propety to revision component
 
 handleRowClick(e){
 
-    console.log(e.rowData);
   this.setState({
     UID : e.rowData.UDN,
     UDN : e.rowData.UDN
@@ -62,7 +65,10 @@ handleChange(e){
 
 fetchDesignDocument(){
 
-  fetch('/design_documents?search='+this.state.searchValue)
+  let newSearch = this.state.searchValue
+
+
+  fetch('/design_documents?search='+newSearch)
  .then(function(result){
    return result.json();
  })
@@ -77,9 +83,16 @@ componentDidMount() {
  };
 
  componentDidUpdate(prevProp,prevState){
-   if (prevState.searchValue!==this.state.searchValue) {
-     this.fetchDesignDocument();
+
+
+     if (prevState.searchValue!==this.state.searchValue) {
+       this.fetchDesignDocument();
+
    }
+
+   //if (prevState.searchData!==this.state.searchData) {
+  //   this.fetchDesignDocument();
+//   }
  }
 
 
@@ -94,6 +107,12 @@ callBackfromRev(value){
     compareToInti : value.compareToInti,
     compareToPrev: value.compareToPrev
   })
+}
+callBackfromFilter(value){
+  this.setState({
+        searchData : value.Discipline,
+  })
+  console.log(this.state.searchData);
 }
 
 
@@ -153,6 +172,7 @@ renderDesignDocuments(){
                 <Sidebar RfiRef={this.state.datafromRfi} RfiStatus={this.state.RfiStatus} compareToInti={this.state.compareToInti} compareToPrev={this.state.compareToPrev}/>
             </div>
             <div className = 'col-md-9'>
+                      <AdvancedFilter data={this.state.data} getSearchData={this.callBackfromFilter}/>
                       <h1 className="titles">Design Documents</h1>
 
                       <div>

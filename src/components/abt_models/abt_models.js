@@ -76,7 +76,7 @@ renderModels(){
     if (item.ReplyStatus === null) {
       return item.ReplyStatus  = ""
     }
-    else if (item.ReplyStatus.toString() == "?") {
+    else if (item.ReplyStatus.toString() === "?") {
       return item.ReplyStatus  = "Under Review"
 
     }

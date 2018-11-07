@@ -16,7 +16,7 @@ this.handleCompareToPrev =  this.handleCompareToPrev.bind(this);
 handleRfiIssuedClick(){
 
 
-   if (this.props.RfiRef !="") {
+   if (this.props.RfiRef !=="") {
      window.open("https://mtbvbc.tcajv.ae/MTB/?WorkID=DCG%20WORKSPACE&DocuNum="+this.props.RfiRef+"&isWN=true&dMode=0&Number=00")
    }
    else{
@@ -41,7 +41,7 @@ handleCompareToInti(){
   if (this.props.compareToInti === "") {
     alert("Please select drawing")
   }
-  else if (this.props.compareToInti =="N/A") {
+  else if (this.props.compareToInti ==="N/A") {
     alert("Drawing is not available")
   }
   else {
@@ -55,7 +55,7 @@ handleCompareToPrev(){
   if (this.props.compareToPrev === "") {
     alert("Please select drawing")
   }
-  else if (this.props.compareToPrev =="N/A") {
+  else if (this.props.compareToPrev ==="N/A") {
     alert("Drawing is not available")
   }
   else {

@@ -39,7 +39,7 @@ fetchData(){
 
 //handle double click on row
 handleRowDoubleClick(e){
-  if (e.rowData.VBCURL == "N/A") {
+  if (e.rowData.VBCURL === "N/A") {
     alert("The link is not available")
   }
   else(window.open(e.rowData.VBCURL))
@@ -77,6 +77,7 @@ renderRevision(){
   let UID = this.props.UID
   let handleRowClick = this.handleRowClick;
   let handleRowDoubleClick = this.handleRowDoubleClick;
+  let searchValue  = this.state.searchValue;
 
 
   var revData = this.state.data.filter(function(item){
