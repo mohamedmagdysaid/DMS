@@ -41,12 +41,12 @@ handleCompareToInti(){
   if (this.props.compareToInti === "") {
     alert("Please select drawing")
   }
-  else if (this.props.compareToInti ==="N/A") {
+  else if (this.props.compareToInti ==="N/A" || this.props.compareToPrev === "New") {
     alert("Drawing is not available")
   }
   else {
 
-    window.open(this.props.compareToInti.replace("X:\\1. Public\\Out","http://127.0.0.1:8887"));
+    window.open(this.props.compareToInti.replace("X:\\1. Public\\Out","http://10.4.170.82:8887\\1. Public\\Out"));
   }
 }
 
@@ -55,12 +55,12 @@ handleCompareToPrev(){
   if (this.props.compareToPrev === "") {
     alert("Please select drawing")
   }
-  else if (this.props.compareToPrev ==="N/A") {
+  else if (this.props.compareToPrev ==="N/A" || this.props.compareToPrev === "New") {
     alert("Drawing is not available")
   }
   else {
 
-    window.open(this.props.compareToPrev.replace("X:\\1. Public\\Out","http://127.0.0.1:8887"));
+    window.open(this.props.compareToPrev.replace("X:\\1. Public\\Out","http://10.4.170.82:8887\\1. Public\\Out"));
   }
 }
 
@@ -77,23 +77,7 @@ render(){
 
         <ul className="list-unstyled components">
             <p className = "sidebartitle">Design Documents</p>
-            <li className="active">
-                <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">---</a>
-                <ul className="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="">---</a>
-            </li>
+
             <li>
                 <p data-toggle="collapse" aria-expanded="false" className="RFI">Comparison</p>
             </li>

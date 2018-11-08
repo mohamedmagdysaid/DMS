@@ -39,10 +39,14 @@ fetchData(){
 
 //handle double click on row
 handleRowDoubleClick(e){
-  if (e.rowData.VBCURL === "N/A") {
+  if (e.rowData.XPATH === "N/A" || e.rowData.XPATH === "Missing" && e.rowData.VBCURL === "N/A") {
     alert("The link is not available")
   }
-  else(window.open(e.rowData.VBCURL))
+  else if (e.rowData.XPATH.slice(0,1)=== "W") {
+    window.open(e.rowData.VBCURL)
+  }
+
+  else(window.open(e.rowData.XPATH.replace("X:\\7. DCG","http://10.4.170.82:8887\\7. DCG")))
 
 }
 
@@ -54,6 +58,7 @@ handleRowClick(e){
 
   let revRef = {compareToInti : e.rowData.CompareToInti, compareToPrev:e.rowData.CompareToPrev}
   this.props.getURL(revRef);
+
 
 
 }

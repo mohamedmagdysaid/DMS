@@ -12,9 +12,9 @@ app.get('/ping', function (req, res) {
 
 var sql =require("mssql");
 var config = {
-      server:'*****',
-      user:'***',
-      password:'*****',
+      server:'******',
+      user:'*****',
+      password:'****',
       driver: 'tedious',
       database:'DB_DMS',
       database:'DB_BIM',
@@ -34,6 +34,7 @@ app.get('/design_documents',function(req,res){
           var dbQuery = new sql.Request(connection);
           //Purposely we are delaying the results
             var search = req.query.search;
+/**
             if (search.includes(" ")) {
 
           var params = search.split(" ");
@@ -43,7 +44,7 @@ app.get('/design_documents',function(req,res){
               sqlquery1 = "SELECT * FROM DB_DMS.dbo.DRW_Drawings WHERE DB_DMS.dbo.DRW_Drawings.UDN like '%"+params[0]+"%' OR DB_DMS.dbo.DRW_Drawings.Title like '%"+params[0]+"%'"
               add = "INTERSECT SELECT * FROM DB_DMS.dbo.DRW_Drawings WHERE DB_DMS.dbo.DRW_Drawings.UDN like '%"+params[i]+"%' OR DB_DMS.dbo.DRW_Drawings.Title like '%"+params[i]+"%'"
 
-               if (count = 0) {
+               if (count = 0 ) {
                  sqlquery = sqlquery1;
 
                }
@@ -55,14 +56,15 @@ app.get('/design_documents',function(req,res){
 
 
 
+
             }
 
       } else {
           sqlquery = "SELECT * FROM DB_DMS.dbo.DRW_Drawings WHERE DB_DMS.dbo.DRW_Drawings.UDN like '%"+search+"%' OR DB_DMS.dbo.DRW_Drawings.Title like '%"+search+"%'";
       }
-
-  console.log(sqlquery);
-          dbQuery.query(sqlquery,function(err,resultset){
+*/
+  //console.log(sqlquery+"       new        ");
+          dbQuery.query("SELECT * FROM DB_DMS.dbo.DRW_Drawings",function(err,resultset){
               //In case of an error print the error to the console. You can have your customer error handling
               if (err) console.log(err);
 
@@ -83,7 +85,7 @@ app.get('/design_documents/revisions',function(req,res){
           //Query Database
           var dbQuery = new sql.Request(connection);
           //Purposely we are delaying the results
-          dbQuery.query("select DB_DMS.dbo.DRW_Drawings.UDN , DB_DMS.dbo.CON_DrawingsPackages.MLID , DB_DMS.dbo.DRW_DrawingRevisions.Transmittal , DB_DMS.dbo.DRW_DrawingRevisions.RecieveDate , DB_DMS.dbo.DRW_DrawingRevisions.Extension,DB_DMS.dbo.DRW_DrawingRevisions.Revision,DB_DMS.dbo.DRW_DrawingRevisions.CompareToPrev,DB_DMS.dbo.DRW_DrawingRevisions.CompareToInti , DB_DMS.dbo.DRW_DrawingRevisions.VBCURL , DB_DMS.dbo.DRW_DrawingRevisions.Latest , DB_DMS.dbo.DRW_Packages.Package from DB_DMS.dbo.DRW_Drawings join DB_DMS.dbo.CON_DrawingsPackages on DB_DMS.dbo.DRW_Drawings.ID = DB_DMS.dbo.CON_DrawingsPackages.MLID join DB_DMS.dbo.DRW_DrawingRevisions on DB_DMS.dbo.CON_DrawingsPackages.ID  = DB_DMS.dbo.DRW_DrawingRevisions.MLPLID join DB_DMS.dbo.DRW_Packages on DB_DMS.dbo.CON_DrawingsPackages.PLID = DB_DMS.dbo.DRW_Packages.ID where DB_DMS.dbo.DRW_DrawingRevisions.Extension like 'PDF'  AND DB_DMS.dbo.DRW_Drawings.UDN like '"+req.query.UID+"'order by RecieveDate DESC",function(err,resultset){
+          dbQuery.query("select DB_DMS.dbo.DRW_Drawings.UDN , DB_DMS.dbo.CON_DrawingsPackages.MLID , DB_DMS.dbo.DRW_DrawingRevisions.Transmittal , DB_DMS.dbo.DRW_DrawingRevisions.RecieveDate, DB_DMS.dbo.DRW_DrawingRevisions.XPATH , DB_DMS.dbo.DRW_DrawingRevisions.Extension,DB_DMS.dbo.DRW_DrawingRevisions.Revision,DB_DMS.dbo.DRW_DrawingRevisions.CompareToPrev,DB_DMS.dbo.DRW_DrawingRevisions.CompareToInti , DB_DMS.dbo.DRW_DrawingRevisions.VBCURL , DB_DMS.dbo.DRW_DrawingRevisions.Latest , DB_DMS.dbo.DRW_Packages.Package from DB_DMS.dbo.DRW_Drawings join DB_DMS.dbo.CON_DrawingsPackages on DB_DMS.dbo.DRW_Drawings.ID = DB_DMS.dbo.CON_DrawingsPackages.MLID join DB_DMS.dbo.DRW_DrawingRevisions on DB_DMS.dbo.CON_DrawingsPackages.ID  = DB_DMS.dbo.DRW_DrawingRevisions.MLPLID join DB_DMS.dbo.DRW_Packages on DB_DMS.dbo.CON_DrawingsPackages.PLID = DB_DMS.dbo.DRW_Packages.ID where DB_DMS.dbo.DRW_DrawingRevisions.Extension like 'PDF'  AND DB_DMS.dbo.DRW_Drawings.UDN like '"+req.query.UID+"'order by RecieveDate DESC",function(err,resultset){
               //In case of an error print the error to the console. You can have your customer error handling
               if (err) console.log(err);
 

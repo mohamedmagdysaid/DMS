@@ -6,7 +6,7 @@ import RFIs from './rfis'
 import { Column, Table } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 import Sidebar from './sidebar'
-import AdvancedFilter from './advancedFilter'
+
 
 
 
@@ -25,6 +25,7 @@ class Design_documents extends React.Component{
       compareToInti:'',
       compareToPrev:'',
       searchData:'',
+
 
 
     }
@@ -55,6 +56,65 @@ handleChange(e){
   this.setState({
     searchValue : e.currentTarget.value
   })
+  let searched = e.currentTarget.value;
+  this.setState({
+    data : this.state.data.filter(function(item){
+
+      if (item.Title === null) {
+        return item.Title = "";
+      }
+
+      let filterData = item.UDN.toLowerCase() + item.Title.toLowerCase()
+
+
+      if (e.currentTarget.value.includes(" ")) {
+          let newSearched = searched.split(" ")
+          let finalQuery
+          for (var i = 1; i < newSearched.length; i++) {
+          let  firstQuery = filterData.indexOf(newSearched[0].toLowerCase()) !== -1
+          let    itterated = filterData.indexOf(newSearched[i].toLowerCase()) !== -1
+
+          console.log(newSearched.length);
+          if (i <= 1) {
+            finalQuery = firstQuery & itterated
+          }
+            else {
+                finalQuery = finalQuery & itterated;
+              }
+          }
+          return finalQuery
+      }
+
+
+/**
+if (e.currentTarget.value.includes(" ")) {
+      let newSearched = searched.split(" ");
+
+      let firstQ  = filterData.indexOf(newSearched[0].toLowerCase()) !== -1
+
+      let itterated =filterData.indexOf(newSearched[0].toLowerCase()) !== -1
+      let finalQ
+
+      for (var i = 0; i < newSearched.length; i++) {
+          let searching = filterData.indexOf(newSearched[i].toLowerCase()) !== -1
+          console.log(newSearched[1]);
+            itterated = itterated & searching;
+
+      }
+
+      finalQ = firstQ & itterated;
+      console.log(finalQ)
+      return  finalQ
+
+
+}
+*/
+      else{
+        return filterData.indexOf(searched.toLowerCase()) !== -1
+      }
+  //    return  (item.UDN.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) !==-1 || item.Title.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) !==-1 )
+    })
+  })
 
 
 }
@@ -68,7 +128,7 @@ fetchDesignDocument(){
   let newSearch = this.state.searchValue
 
 
-  fetch('/design_documents?search='+newSearch)
+  fetch('/design_documents?search=')
  .then(function(result){
    return result.json();
  })
@@ -82,10 +142,11 @@ componentDidMount() {
       this.fetchDesignDocument();
  };
 
+
  componentDidUpdate(prevProp,prevState){
 
 
-     if (prevState.searchValue!==this.state.searchValue) {
+     if (this.state.searchValue.length == 0 && prevState.searchValue.length > 0) {
        this.fetchDesignDocument();
 
    }
@@ -121,6 +182,9 @@ renderDesignDocuments(){
 
       let handleRowClick=this.handleRowClick;
       let handleChange= this.handleChange;
+
+
+
 
       return(
         <Table
@@ -172,7 +236,6 @@ renderDesignDocuments(){
                 <Sidebar RfiRef={this.state.datafromRfi} RfiStatus={this.state.RfiStatus} compareToInti={this.state.compareToInti} compareToPrev={this.state.compareToPrev}/>
             </div>
             <div className = 'col-md-9'>
-                      <AdvancedFilter data={this.state.data} getSearchData={this.callBackfromFilter}/>
                       <h1 className="titles">Design Documents</h1>
 
                       <div>
