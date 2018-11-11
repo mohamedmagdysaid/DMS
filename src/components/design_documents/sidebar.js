@@ -46,7 +46,7 @@ handleCompareToInti(){
   }
   else {
 
-    window.open(this.props.compareToInti.replace("X:\\1. Public\\Out","http://10.4.170.82:8887\\1. Public\\Out"));
+    window.open(this.props.compareToInti.replace("X:\\1. Public\\Out","http://10.4.170.82:5005\\1. Public\\Out"));
   }
 }
 
@@ -60,7 +60,7 @@ handleCompareToPrev(){
   }
   else {
 
-    window.open(this.props.compareToPrev.replace("X:\\1. Public\\Out","http://10.4.170.82:8887\\1. Public\\Out"));
+    window.open(this.props.compareToPrev.replace("X:\\1. Public\\Out","http://10.4.170.82:5005\\1. Public\\Out"));
   }
 }
 

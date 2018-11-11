@@ -25,6 +25,8 @@ class Design_documents extends React.Component{
       compareToInti:'',
       compareToPrev:'',
       searchData:'',
+      orginalData:'',
+
 
 
 
@@ -74,7 +76,7 @@ handleChange(e){
           let  firstQuery = filterData.indexOf(newSearched[0].toLowerCase()) !== -1
           let    itterated = filterData.indexOf(newSearched[i].toLowerCase()) !== -1
 
-          console.log(newSearched.length);
+
           if (i <= 1) {
             finalQuery = firstQuery & itterated
           }
@@ -134,7 +136,7 @@ fetchDesignDocument(){
  })
  .then(result => this.setState({
    data:result.recordset,
-
+   orginalData : result.recordset,
  }))
 
 }
@@ -147,7 +149,9 @@ componentDidMount() {
 
 
      if (this.state.searchValue.length == 0 && prevState.searchValue.length > 0) {
-       this.fetchDesignDocument();
+       this.setState({
+         data: this.state.orginalData,
+       })
 
    }
 

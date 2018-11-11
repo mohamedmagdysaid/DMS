@@ -46,7 +46,7 @@ handleRowDoubleClick(e){
     window.open(e.rowData.VBCURL)
   }
 
-  else(window.open(e.rowData.XPATH.replace("X:\\7. DCG","http://10.4.170.82:8887\\7. DCG")))
+  else(window.open(e.rowData.XPATH.replace("X:\\7. DCG","http://10.4.170.82:5005\\7. DCG")))
 
 }
 

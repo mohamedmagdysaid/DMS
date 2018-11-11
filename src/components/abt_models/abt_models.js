@@ -10,7 +10,8 @@ class AbtModels extends React.Component{
         this.state={
           data:[],
           searchAbt:'',
-          list:''
+          list:'',
+          orginalData:'',
         }
 
 this.handleRowClick = this.handleRowClick.bind(this)
@@ -19,15 +20,19 @@ this.handleChange = this.handleChange.bind(this)
 
 
 fetchAbtData(){
-  fetch('/abtmodels?modelname='+this.state.searchAbt)
+  fetch('/abtmodels')
  .then(function(result){
    return result.json();
    })
  .then(result => this.setState({
  data:result.recordset,
+ orginalData : result.recordset,
 }))
 }
 
+componentDidMount() {
+      this.fetchAbtData();
+ };
 
 
 
@@ -36,22 +41,57 @@ handleChange(e){
 //  let searchAbt = this.state.searchAbt
   this.setState({
     searchAbt  :  e.currentTarget.value,
-    //data : this.state.data.filter(function(item){
-    //  return (item.ModelName.toLowerCase().indexOf(searchAbt.toLowerCase())!== -1)
-   //})
   })
+  let searched = e.currentTarget.value;
+  this.setState({
+    data : this.state.data.filter(function(item){
+
+      if (item.Title === null) {
+        return item.Title = "";
+      }
+      if (item.Revision === null) {
+        return item.Revision = "";
+      }
+      if (item['Reply Comment']===null) {
+        return item['Reply Comment'] = "";
+      }
+      let filterData = item.ModelName.toLowerCase() + item.Package.toLowerCase() + item['Reply Comment'].toLowerCase() + item['Area Description'].toLowerCase()+ item['Floor Description'].toLowerCase() + item['LiveLink Transmittal'].toLowerCase() + item.Revision.toLowerCase()
+
+
+      if (e.currentTarget.value.includes(" ")) {
+          let newSearched = searched.split(" ")
+          let finalQuery
+          for (var i = 1; i < newSearched.length; i++) {
+          let  firstQuery = filterData.indexOf(newSearched[0].toLowerCase()) !== -1
+          let    itterated = filterData.indexOf(newSearched[i].toLowerCase()) !== -1
+
+
+          if (i <= 1) {
+            finalQuery = firstQuery & itterated
+          }
+            else {
+                finalQuery = finalQuery & itterated;
+              }
+          }
+          return finalQuery
+      }
+
+      else{
+        return filterData.indexOf(searched.toLowerCase()) !== -1
+      }
+    })
+  })
+
 }
+
+
 componentDidUpdate(prevProp,prevState){
-  if (prevState.searchAbt!==this.state.searchAbt) {
-    console.log(prevState.searchAbt);
-    this.fetchAbtData();
+    if (this.state.searchAbt.length == 0 && prevState.searchAbt.length > 0) {
+      this.setState({
+        data: this.state.orginalData,
+      })
   }
 }
-
-
-componentDidMount() {
-        this.fetchAbtData();
-};
 
 
 handleRowClick(e){
@@ -64,32 +104,6 @@ renderModels(){
   let handleRowClick = this.handleRowClick;
   let searchAbt = this.state.searchAbt
   let handleChange = this.handleChange
-
-
-  this.state.data.filter(function(item, pos, self){
-    if(item.ABT_Model_TranNum === null){
-      return item.ABT_Model_TranNum = "-"
-    }
-    else if (item.ABT_Model_TranNum !==null && item.ABT_Model_TranNum !=="-" && item.ABT_Model_TranNum_Prefix !==null && item.ABT_Model_TranNum.slice(0,3) !=="BIM") {
-      return item.ABT_Model_TranNum = item.ABT_Model_TranNum_Prefix+"-"+item.ABT_Model_Discipline+"-"+item.ABT_Model_TranNum
-    }
-    if (item.ReplyStatus === null) {
-      return item.ReplyStatus  = ""
-    }
-    else if (item.ReplyStatus.toString() === "?") {
-      return item.ReplyStatus  = "Under Review"
-
-    }
-
-})
-
-//for (var i = 0; i < this.state.data.length; i++) {
-//  for (var j = 0; j < this.state.data.length; j++) {
-//    if (this.state.data[i].ModelName==this.state.data[j].ModelName) {
-//     console.log(this.state.data[j].ModelName);
-//    }
-//  }
-//}
 
 
 
@@ -117,34 +131,34 @@ return(
   />
   <Column
     width={350}
-    label='Scope'
-    dataKey='SCOPE'
+    label='Package'
+    dataKey='Package'
   />
   <Column
     width={100}
     label='Area'
-    dataKey='Area'
+    dataKey='Area Description'
 
   />
   <Column
     width={100}
     label='Floor'
-    dataKey='Floor'
+    dataKey='Floor Description'
   />
   <Column
-    width={350}
+    width={250}
     label='Transmittal Number'
-    dataKey='ABT_Model_TranNum'
+    dataKey='LiveLink Transmittal'
   />
   <Column
-    width={150}
+    width={100}
     label='Revision'
-    dataKey='Rev'
+    dataKey='Revision'
   />
   <Column
     width={400}
     label='Comment'
-    dataKey='ReplyStatus'
+    dataKey='Reply Comment'
   />
 </Table>
 
