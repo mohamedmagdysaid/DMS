@@ -5,6 +5,7 @@ import AbtModelProgress from './abtmodelprogress'
 import CurrentProgress from './currentprogress'
 import './sidebar.css'
 import Sidebar from './sidebar'
+import ProgressByBuilding from './progressbybuilding'
 
 class Progress extends React.Component {
   constructor(){
@@ -46,6 +47,10 @@ render(){
     <div>
       <p className='progress-header'>Current Progress</p>
       <CurrentProgress data={this.state.data}/>
+    </div>
+    <div>
+      <p className='progress-header'>Current Progress by Area</p>
+      <ProgressByBuilding data={this.state.data}/>
     </div>
 
     </div>

@@ -38,23 +38,17 @@ componentDidMount() {
 
 
 handleChange(e){
+
+
 //  let searchAbt = this.state.searchAbt
   this.setState({
     searchAbt  :  e.currentTarget.value,
+
   })
   let searched = e.currentTarget.value;
   this.setState({
     data : this.state.data.filter(function(item){
 
-      if (item.Title === null) {
-        return item.Title = "";
-      }
-      if (item.Revision === null) {
-        return item.Revision = "";
-      }
-      if (item['Reply Comment']===null) {
-        return item['Reply Comment'] = "";
-      }
       let filterData = item.ModelName.toLowerCase() + item.Package.toLowerCase() + item['Reply Comment'].toLowerCase() + item['Area Description'].toLowerCase()+ item['Floor Description'].toLowerCase() + item['LiveLink Transmittal'].toLowerCase() + item.Revision.toLowerCase()
 
 
@@ -74,10 +68,12 @@ handleChange(e){
               }
           }
           return finalQuery
+
       }
 
       else{
         return filterData.indexOf(searched.toLowerCase()) !== -1
+
       }
     })
   })
