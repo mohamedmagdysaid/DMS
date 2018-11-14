@@ -17,6 +17,12 @@ class CurrentProgress extends React.Component{
     let underreview = 0;
     let notrecevied = 0;
     let arr
+
+    this.props.data.filter(function(item){
+      if (item['LiveLink Transmittal'] !== "-" && item['Reply Comment'] === "-" ) {
+        return item['Reply Comment'] = 'Submitted but not recieved by client'
+      }
+    })
     this.props.data.map(function(item){
          arr = [item['Reply Comment']]
          for (var i = 0; i < arr.length; i++) {
@@ -34,6 +40,9 @@ class CurrentProgress extends React.Component{
            }
            if (arr[i] === "Under Review") {
              underreview++
+           }
+           if (arr[i] === "Submitted but not recieved by client") {
+             notrecevied++
            }
 
          }
@@ -75,6 +84,12 @@ class CurrentProgress extends React.Component{
           "label": "Under Review",
           "value": underreview,
           "color": "hsl(322, 70%, 50%)"
+        },
+        {
+          "id": "Submitted but not recieved by client",
+          "label": "Submitted but not recieved by client",
+          "value": notrecevied,
+          "color": "hsl(12, 70%, 50%)"
         }
 
           ]}

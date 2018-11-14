@@ -1,16 +1,26 @@
 import React from 'react';
-
+import {Button} from 'react-bootstrap'
 import { ResponsiveBar } from '@nivo/bar'
 
 
 class ProgressByBuilding extends React.Component{
   constructor(){
     super()
+    this.state = {
+      button : true,
+      buttontext:"Remove Not Submitted Models"
+
+
+    }
+this.handleClick = this.handleClick.bind(this);
+
   }
 
 
 
   ProgressByBuilding(){
+
+    let button = this.state.button;
     let noexceptioncp = 0;
     let resubmitcp = 0;
     let rejectedcp = 0;
@@ -83,6 +93,7 @@ class ProgressByBuilding extends React.Component{
     let notreceviedtb = 0;
     let notsubmittedtb = 0;
     let arrtb
+
     this.props.data.filter(function(item){
       if (item['LiveLink Transmittal'] !== "-" && item['Reply Comment'] === "-" ) {
         return item['Reply Comment'] = 'Submitted but not recieved by client'
@@ -90,6 +101,7 @@ class ProgressByBuilding extends React.Component{
     })
     this.props.data.map(function(item){
          if (item['Area Description'] === "Central Processor") {
+
             arrcp = [item['Reply Comment']]
             for (var i = 0; i < arrcp.length; i++) {
               if (arrcp[i] === "Submitted but not recieved by client") {
@@ -110,10 +122,13 @@ class ProgressByBuilding extends React.Component{
               if (arrcp[i] === "Under Review") {
                 underreviewcp++
               }
-              if (arrcp[i] === "-") {
+              if (arrcp[i] === "-" && button === true) {
                 notsubmittedcp++
+
+
               }
             }
+
          }
          if (item['Area Description'] === "Pier 1") {
             arrpone = [item['Reply Comment']]
@@ -136,7 +151,7 @@ class ProgressByBuilding extends React.Component{
               if (arrpone[i] === "Under Review") {
                 underreviewpone++
               }
-              if (arrpone[i] === "-") {
+              if (arrpone[i] === "-" && button === true) {
                 notsubmittedpone++
               }
             }
@@ -162,8 +177,9 @@ class ProgressByBuilding extends React.Component{
               if (arrptwo[i] === "Under Review") {
                 underreviewptwo++
               }
-              if (arrptwo[i] === "-") {
+              if (arrptwo[i] === "-" && button === true) {
                 notsubmittedptwo++
+
               }
             }
          }
@@ -188,7 +204,7 @@ class ProgressByBuilding extends React.Component{
               if (arrpthree[i] === "Under Review") {
                 underreviewpthree++
               }
-              if (arrpthree[i] === "-") {
+              if (arrpthree[i] === "-" && button === true) {
                 notsubmittedpthree++
               }
             }
@@ -211,10 +227,10 @@ class ProgressByBuilding extends React.Component{
               if (arrpfour[i] === "5 - Review Not Required") {
                 reviewnotrequiredpfour++
               }
-              if (arrpfour[i] === "Under Review") {
+              if (arrpfour[i] === "Under Review" ) {
                 underreviewpfour++
               }
-              if (arrpfour[i] === "-") {
+              if (arrpfour[i] === "-" && button === true) {
                 notsubmittedpfour++
               }
             }
@@ -240,7 +256,7 @@ class ProgressByBuilding extends React.Component{
               if (arrgh[i] === "Under Review") {
                 underreviewgh++
               }
-              if (arrgh[i] === "-") {
+              if (arrgh[i] === "-" && button === true) {
                 notsubmittedgh++
               }
             }
@@ -266,7 +282,7 @@ class ProgressByBuilding extends React.Component{
               if (arrho[i] === "Under Review") {
                 underreviewho++
               }
-              if (arrho[i] === "-") {
+              if (arrho[i] === "-" && button === true) {
                 notsubmittedho++
               }
             }
@@ -292,7 +308,7 @@ class ProgressByBuilding extends React.Component{
               if (arrex[i] === "Under Review") {
                 underreviewex++
               }
-              if (arrex[i] === "-") {
+              if (arrex[i] === "-" && button === true) {
                 notsubmittedex++
               }
             }
@@ -318,7 +334,7 @@ class ProgressByBuilding extends React.Component{
               if (arrtb[i] === "Under Review") {
                 underreviewtb++
               }
-              if (arrtb[i] === "-") {
+              if (arrtb[i] === "-" && button === true) {
                 notsubmittedtb++
               }
             }
@@ -326,7 +342,7 @@ class ProgressByBuilding extends React.Component{
 
 
     })
-console.log(notreceviedcp);
+
 
       if (noexceptioncp === 0) {
 
@@ -350,7 +366,7 @@ console.log(notreceviedcp);
     "Submitted but not recieved by client": notreceviedcp,
     "Submitted but not recieved by clientColor": "hsl(109, 70%, 50%)",
     "Not Submitted":notsubmittedcp,
-    "Not SubmittedColor": "hsl(165, 70%, 50%)"
+    "Not SubmittedColor": "hsl(100, 70%, 50%)"
   },
   {
     "Building": "Pier 1",
@@ -597,11 +613,25 @@ console.log(notreceviedcp);
 
   }
 
-
+  handleClick(){
+    if (this.state.button === true) {
+      this.setState({
+        button:false,
+        buttontext : "Add Not Submitted Models"
+      })
+    }
+    else {
+      this.setState({
+        button:true,
+        buttontext : "Remove Not Submitted Models"
+      })
+    }
+  }
 
   render(){
     return(
       <div className='current-progress' >
+      <Button bsStyle="warning" onClick={this.handleClick}>{this.state.buttontext}</Button>
       {this.ProgressByBuilding()}
       </div>
     )

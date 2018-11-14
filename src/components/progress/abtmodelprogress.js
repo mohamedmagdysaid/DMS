@@ -35,13 +35,13 @@ class AbtModelProgress extends React.Component{
       <ResponsivePie
           data={[{
             "id": "Submitted",
-          "label": "Number of models submitted to the client",
+          "label": "Number of models submitted to the client   (" +Math.round((submitted/2637) * 100) + " %)   " ,
           "value": submitted,
           "color": "hsl(17, 70%, 50%)"
         },
         {
           "id": "Not Submitted",
-          "label": "remaining models",
+          "label": "remaining models   ("+Math.round((notSubmitted/2637) * 100) + " %)   " ,
           "value": notSubmitted,
           "color": "hsl(322, 70%, 50%)"
         }
