@@ -16,7 +16,7 @@ fetchShopDrawingRevisionData(){
      })
      .then(result => this.setState({
        data:result.recordset,
-     }))
+     }))   
 }
 
 componentDidMount(){

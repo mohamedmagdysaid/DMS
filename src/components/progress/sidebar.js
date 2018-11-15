@@ -2,13 +2,26 @@ import React from 'react';
 import './sidebar.css'
 
 
-class Sidebar extends React.Component{
+class ProgressSidebar extends React.Component{
     constructor(){
       super()
 
-
+this.handleClick = this.handleClick.bind(this)
     }
 
+handleClick(e){
+  e.preventDefault()
+  console.log(e.currentTarget.text);
+  if (e.currentTarget.text === "Progress by Package") {
+    this.props.getData("Progress by Package")
+  }
+  if (e.currentTarget.text === "Progress by Area & Discipline") {
+    this.props.getData("Progress by Area & Discipline")
+  }
+  if (e.currentTarget.text === "Progress") {
+    this.props.getData("Progress")
+  }
+}
 
 
 
@@ -23,16 +36,16 @@ render(){
         </div>
 
         <ul className="list-unstyled components">
-            <p className = "sidebartitle">Progress</p>
+            <p className = "sidebartitle"></p>
 
             <li>
-                <p data-toggle="collapse" aria-expanded="false" className="RFI"></p>
+                <a onClick={this.handleClick} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Progress</a>
             </li>
             <li>
-                <a onClick={this.handleCompareToInti} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"></a>
+                <a onClick={this.handleClick} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Progress by Area & Discipline</a>
             </li>
             <li>
-                <a onClick={this.handleCompareToPrev} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"></a>
+                <a onClick={this.handleClick} data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Progress by Package</a>
             </li>
             <li>
                 <p data-toggle="collapse" aria-expanded="false" className="RFI"></p>
@@ -56,4 +69,4 @@ render(){
 
 }
 
-export default Sidebar
+export default ProgressSidebar
