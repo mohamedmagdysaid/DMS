@@ -377,7 +377,7 @@ this.handleClick = this.handleClick.bind(this);
       })
 
 
-        if (noexceptioncp === 0) {
+        if (arrcp.length === 0) {
 
         }
         else
@@ -616,7 +616,7 @@ this.handleClick = this.handleClick.bind(this);
              "tickSize": 5,
              "tickPadding": 5,
              "tickRotation": 0,
-             "legend": "Building",
+             "legend": "Discipline",
              "legendPosition": "middle",
              "legendOffset": 32
          }}

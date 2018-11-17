@@ -2,16 +2,23 @@ import React from 'react';
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import { ResponsivePie } from '@nivo/pie'
-
+import './../progress.css'
+import {Button} from 'react-bootstrap'
+import {FormControl,FormGroup} from 'react-bootstrap'
 
 class ProgrssBySC extends React.Component{
   constructor(){
     super()
     this.state={
       packageData:[],
-      selected: ''
+      selected: '',
+      button : true,
+      buttontext:"Remove Not Submitted Models",
+      searchData:'',
     }
   this._onSelect = this._onSelect.bind(this)
+  this.handleClick = this.handleClick.bind(this)
+//this.handleChange = this.handleChange.bind(this);
   }
 fetchPackageData(){
         fetch('/progess/package?packageID='+this.state.selected)
@@ -21,6 +28,7 @@ fetchPackageData(){
        .then(result => this.setState({
          packageData:result.recordset,
        }))
+
   }
 
 componentDidMount(){
@@ -32,8 +40,17 @@ componentDidUpdate(prevProp,prevState){
     this.fetchPackageData();
   }
 }
-
-
+/**
+handleChange(e){
+  e.preventDefault();
+  this.setState({
+    searchData : e.currentTarget.value
+  })
+  this.state.packageData.filter(function(item){
+    return (item.Package.toLowerCase().indexOf(e.currentTarget.value.toLowerCase())!==-1)
+  })
+}
+*/
 _onSelect (option) {
   this.setState({selected: option.label})
 
@@ -46,14 +63,21 @@ renderProgress(){
   let reviewnotrequired = 0;
   let underreview = 0;
   let notrecevied = 0;
-  let arr
+  let notsubmitted = 0;
+  let arr = [];
+  let button  = this.state.button
+  let numberModels = 0
+  let numberofsubmitted = 0;
+
 
   this.state.packageData.filter(function(item){
     if (item['LiveLink Transmittal'] !== "-" && item['Reply Comment'] === "-" ) {
       return item['Reply Comment'] = 'Submitted but not recieved by client'
     }
   })
+
   this.state.packageData.map(function(item){
+
        arr = [item['Reply Comment']]
        for (var i = 0; i < arr.length; i++) {
          if (arr[i] === "1 - No Exception Taken" || arr[i] === '1 - No Exception Taken (Consultant)') {
@@ -74,16 +98,29 @@ renderProgress(){
          if (arr[i] === "Submitted but not recieved by client") {
            notrecevied++
          }
+         if (arr[i] === "-" && button === true) {
+           notsubmitted++
+         }
+         if (arr[i] !==null) {
+           numberModels++
+         }
+         if (arr[i] !== "-") {
+           numberofsubmitted++
+         }
 
        }
 
   })
 
-    if (noexception === 0) {
+
+    if (arr.length === 0) {
 
     }
     else
   return(
+    <div className="progress-ABT">
+    <p>Total Number of Models : {numberModels} </p>
+    <p>Total Number of Submitted Models : {numberofsubmitted} </p>
     <ResponsivePie
         data={[{
           "id": "1 - No Exception Taken",
@@ -120,6 +157,12 @@ renderProgress(){
         "label": "Submitted but not recieved by client",
         "value": notrecevied,
         "color": "hsl(12, 70%, 50%)"
+      },
+      {
+        "id": "Not Submitted",
+        "label": "Not Submitted",
+        "value": notsubmitted,
+        "color": "hsl(322, 70%, 50%)"
       }
 
         ]}
@@ -132,11 +175,11 @@ renderProgress(){
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
-        colors="nivo"
+        colors="set2"
         colorBy="id"
         borderWidth={1}
         borderColor="inherit:darker(0.5)"
-        radialLabelsSkipAngle={10}
+        radialLabelsSkipAngle={1}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="#333333"
         radialLabelsLinkOffset={0}
@@ -144,11 +187,13 @@ renderProgress(){
         radialLabelsLinkHorizontalLength={24}
         radialLabelsLinkStrokeWidth={1}
         radialLabelsLinkColor="inherit"
-        slicesLabelsSkipAngle={10}
+        slicesLabelsSkipAngle={2}
         slicesLabelsTextColor="#333333"
         animate={true}
         motionStiffness={90}
         motionDamping={15}
+        minValue = {1}
+
         defs={[
             {
                 "id": "dots",
@@ -224,10 +269,10 @@ renderProgress(){
                 "anchor": "bottom",
                 "direction": "row",
                 "translateY": 56,
-                "itemWidth": 170,
+                "itemWidth": 150,
                 "itemHeight": 18,
                 "itemTextColor": "#999",
-                "symbolSize": 18,
+                "symbolSize": 12,
                 "symbolShape": "circle",
                 "effects": [
                     {
@@ -240,10 +285,27 @@ renderProgress(){
             }
         ]}
     />
+    </div>
   )
 
 
 }
+
+handleClick(){
+      if (this.state.button === true) {
+        this.setState({
+          button:false,
+          buttontext : "Add Not Submitted Models"
+        })
+      }
+      else {
+        this.setState({
+          button:true,
+          buttontext : "Remove Not Submitted Models"
+        })
+      }
+}
+
 
 render(){
 
@@ -255,7 +317,7 @@ render(){
       if (self.indexOf(item) === index) {
           return(item);
       }
-    })
+    }).sort()
 
 
 
@@ -275,7 +337,8 @@ render(){
 
 
     </section>
-    <div >
+    <div className="progress-ABT">
+    <Button bsStyle="warning" onClick={this.handleClick}>{this.state.buttontext}</Button>
     {this.renderProgress()}
     </div>
     </div>

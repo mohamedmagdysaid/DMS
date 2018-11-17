@@ -16,6 +16,7 @@ class CurrentProgress extends React.Component{
     let reviewnotrequired = 0;
     let underreview = 0;
     let notrecevied = 0;
+    let notsubmitted = 0;
     let arr
 
     this.props.data.filter(function(item){
@@ -43,6 +44,9 @@ class CurrentProgress extends React.Component{
            }
            if (arr[i] === "Submitted but not recieved by client") {
              notrecevied++
+           }
+           if (arr[i] === "-") {
+             notsubmitted++
            }
 
          }
@@ -90,6 +94,12 @@ class CurrentProgress extends React.Component{
           "label": "Submitted but not recieved by client",
           "value": notrecevied,
           "color": "hsl(12, 70%, 50%)"
+        },
+        {
+          "id": "Not Submitted",
+          "label": "Not Submitted",
+          "value": notsubmitted,
+          "color": "hsl(322, 70%, 50%)"
         }
 
           ]}
@@ -102,11 +112,11 @@ class CurrentProgress extends React.Component{
           innerRadius={0.5}
           padAngle={0.7}
           cornerRadius={3}
-          colors="nivo"
+          colors="set2"
           colorBy="id"
           borderWidth={1}
           borderColor="inherit:darker(0.5)"
-          radialLabelsSkipAngle={10}
+          radialLabelsSkipAngle={1}
           radialLabelsTextXOffset={6}
           radialLabelsTextColor="#333333"
           radialLabelsLinkOffset={0}
@@ -114,7 +124,7 @@ class CurrentProgress extends React.Component{
           radialLabelsLinkHorizontalLength={24}
           radialLabelsLinkStrokeWidth={1}
           radialLabelsLinkColor="inherit"
-          slicesLabelsSkipAngle={10}
+          slicesLabelsSkipAngle={3}
           slicesLabelsTextColor="#333333"
           animate={true}
           motionStiffness={90}

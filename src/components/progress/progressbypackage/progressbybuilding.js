@@ -344,7 +344,7 @@ this.handleClick = this.handleClick.bind(this);
     })
 
 
-      if (noexceptioncp === 0) {
+      if (arrcp.length === 0) {
 
       }
       else
