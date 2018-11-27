@@ -5,6 +5,8 @@ import { ResponsivePie } from '@nivo/pie'
 import './../progress.css'
 import {Button} from 'react-bootstrap'
 import {FormControl,FormGroup} from 'react-bootstrap'
+import Popup from 'reactjs-popup'
+import ControlledPopup from './popupbox'
 
 class ProgrssBySC extends React.Component{
   constructor(){
@@ -15,9 +17,13 @@ class ProgrssBySC extends React.Component{
       button : true,
       buttontext:"Remove Not Submitted Models",
       searchData:'',
+      modelname:[],
+      trigger:false,
     }
   this._onSelect = this._onSelect.bind(this)
   this.handleClick = this.handleClick.bind(this)
+  this.handlePieClick = this.handlePieClick.bind(this)
+  this.toggletrigger = this.toggletrigger.bind(this)
 //this.handleChange = this.handleChange.bind(this);
   }
 fetchPackageData(){
@@ -56,6 +62,30 @@ _onSelect (option) {
 
 }
 
+handlePieClick(e){
+
+  let arrModelName  = [];
+
+
+this.setState({
+  modelname : this.state.packageData.map(function(item){
+    if (item['Reply Comment'].indexOf(e.id)!==-1) {
+       return item.ModelName
+    }
+  }),
+  trigger:true,
+})
+
+
+return(this.renderPopUp())
+}
+
+toggletrigger(){
+  this.setState({
+    trigger:false,
+  })
+}
+
 renderProgress(){
   let noexception = 0;
   let resubmit = 0;
@@ -73,6 +103,9 @@ renderProgress(){
   this.state.packageData.filter(function(item){
     if (item['LiveLink Transmittal'] !== "-" && item['Reply Comment'] === "-" ) {
       return item['Reply Comment'] = 'Submitted but not recieved by client'
+    }
+    if (item['Reply Comment'] ==="-") {
+      return item['Reply Comment']  = 'Not Submitted'
     }
   })
 
@@ -98,13 +131,13 @@ renderProgress(){
          if (arr[i] === "Submitted but not recieved by client") {
            notrecevied++
          }
-         if (arr[i] === "-" && button === true) {
+         if (arr[i] === "Not Submitted" && button === true) {
            notsubmitted++
          }
          if (arr[i] !==null) {
            numberModels++
          }
-         if (arr[i] !== "-") {
+         if (arr[i] !== "Not Submitted") {
            numberofsubmitted++
          }
 
@@ -193,7 +226,7 @@ renderProgress(){
         motionStiffness={90}
         motionDamping={15}
         minValue = {1}
-
+        onClick={this.handlePieClick}
         defs={[
             {
                 "id": "dots",
@@ -291,6 +324,35 @@ renderProgress(){
 
 }
 
+renderPopUp(){
+  if (this.state.trigger === true) {
+    return(
+      <Popup
+      open={this.state.trigger}
+      modal
+      closeOnDocumentClick
+       onClose={this.toggletrigger}
+       //onClose={this.toggletrigger()}
+    >
+      {this.state.modelname.map(function(item){
+          if (item !== undefined) {
+            return <span>
+            {item}
+            <br/>
+          </span>
+          }
+
+
+
+      })}
+
+    </Popup>
+    )
+  }
+
+}
+
+
 handleClick(){
       if (this.state.button === true) {
         this.setState({
@@ -337,11 +399,16 @@ render(){
 
 
     </section>
+    <div className='renderpopup'>
+      {this.renderPopUp()}
+    </div>
     <div className="progress-ABT">
     <Button bsStyle="warning" onClick={this.handleClick}>{this.state.buttontext}</Button>
     {this.renderProgress()}
     </div>
+
     </div>
+
   )
 }
 

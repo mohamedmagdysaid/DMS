@@ -82,7 +82,7 @@ handleChange(e){
 
 
 componentDidUpdate(prevProp,prevState){
-    if (this.state.searchAbt.length == 0 && prevState.searchAbt.length > 0) {
+    if (this.state.searchAbt.length < prevState.searchAbt.length) {
       this.setState({
         data: this.state.orginalData,
       })

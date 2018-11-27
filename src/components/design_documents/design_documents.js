@@ -148,7 +148,7 @@ componentDidMount() {
  componentDidUpdate(prevProp,prevState){
 
 
-     if (this.state.searchValue.length == 0 && prevState.searchValue.length > 0) {
+     if (this.state.searchValue.length < prevState.searchValue.length) {
        this.setState({
          data: this.state.orginalData,
        })
